@@ -24,13 +24,15 @@
   </div>
 </body>
 <script>
+    const BACKEND_URL = "https://to-do-app-mo9s.onrender.com";
+    const BACK_URL = BACKEND_URL || "http://localhost:8000" ;
   document.getElementById("loginBtn").addEventListener("click" , async (event)=>{
       event.preventDefault();
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
     try{
       if(email && password){
-        const response = await axios.post("http://localhost:8000/signin" , {
+        const response = await axios.post( BACK_URL+"/signin" , {
           email  :email,
           password : password,
         })

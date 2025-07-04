@@ -27,7 +27,8 @@
 </body>
 
 <script>
-
+    const BACKEND_URL = "https://to-do-app-mo9s.onrender.com";
+    const BACK_URL = BACKEND_URL || "http://localhost:8000" ;
     async function getSignup(event){
       event.preventDefault();
         const name = document.getElementById("name").value;
@@ -35,7 +36,7 @@
         const password = document.getElementById("password").value;
       if(name &&  email && password){
           document.getElementById("SignUp").disabled = false;
-          const response = await axios.post("http://localhost:8000/signup" ,{
+          const response = await axios.post(`${BACK_URL}/signup` ,{
             name : name,
             email  :email,
             password : password,

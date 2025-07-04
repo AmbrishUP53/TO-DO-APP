@@ -46,13 +46,15 @@
   </main>
 </body>
 <script >
+    const BACKEND_URL = "https://to-do-app-mo9s.onrender.com";
+    const BACK_URL = BACKEND_URL || "http://localhost:8000" ;
   window.addEventListener("DOMContentLoaded" , ()=>{
     const token = localStorage.getItem("token");
     let userId = ""
 
     //get all todos 
     async function getToDos(){
-      const response = await axios.get("http://localhost:8000/to-do-list" , {
+      const response = await axios.get(BACK_URL+"/to-do-list" , {
         headers : {
           token : token ,
         }
@@ -75,7 +77,7 @@
       if(!token){
         window.location.href = "./login.html"
       }
-      const response = await axios.get("http://localhost:8000/api-user-data" , {
+      const response = await axios.get(BACK_URL+"/api-user-data" , {
         headers : {
           token : token,
         },
@@ -89,15 +91,8 @@
  
     //mark the task as completed or not
     window.markAsCompleted = async function (id , done){
-      // let cb = document.getElementById("checkBox");
-      // let done = false
-      // if(cb.checked){
-      //   done = true;
-      // }else{
-      //    done = false
-      // }
       console.log(done)
-      const updateTodo = await axios.put("http://localhost:8000/to-dos",{
+      const updateTodo = await axios.put(BACK_URL+"/to-dos",{
         done : done,
       } ,{
         headers :{
@@ -116,7 +111,7 @@
       const title = document.getElementById("title").value ;
       const priority = document.getElementById("priority").value ;
       let done = false;
-      const response = await axios.post('http://localhost:8000/to-dos' , {
+      const response = await axios.post(BACK_URL+'/to-dos' , {
         userId : userId,
         title : title ,
         priority : priority ,
