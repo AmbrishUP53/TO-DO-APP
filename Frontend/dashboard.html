@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - ToDo App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js" ></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-blue-600 text-white p-4 flex justify-between">
+    <h1 class="text-xl font-bold">ToDo Dashboard</h1>
+    <div>
+     <a href="/profile" id="profile"
+      class="px-4 py-1 rounded-full bg-gradient-to-r from-purple-200 to-indigo-200 text-gray-800 font-semibold hover:from-purple-300 hover:to-indigo-300 transition-all    duration-200 shadow-sm"></a>
+
+      <button id="logoutBtn" class="bg-red-500 px-3 py-1 rounded hover:bg-red-600" onclick="getLogout()">Logout</button>
+    </div>
+  </nav>
+
+
+  <main class="max-w-3xl mx-auto mt-8 p-4">
+    <h2 class="text-2xl font-semibold mb-4">Your Tasks</h2>
+
+    <form id="addTaskForm" class="flex flex-col md:flex-row gap-4 mb-6">
+      <input id="title" type="text" name="title" placeholder="Task title" required class="flex-1 px-4 py-2 border rounded-md"/>
+      <select id="priority" name="priority" class="px-4 py-2 border rounded-md">
+        <option value="">Priority</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+      <button id="Addbtn" type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+        Add
+      </button>
+    </form>
+
+    <div class="mb-4 space-x-2">
+      <button onclick="getToDos()" class="filter-btn px-4 py-1 border rounded bg-gray-200">All</button>
+      <button  class="filter-btn px-4 py-1 border rounded bg-gray-200">Completed</button>
+      <button  class="filter-btn px-4 py-1 border rounded bg-gray-200">Pending</button>
+    </div>
+
+    <!-- Task 1 -->
+     <ul id="todolist"></ul>
+  </main>
+</body>
+<script >
+  window.addEventListener("DOMContentLoaded" , ()=>{
+    const token = localStorage.getItem("token");
+    let userId = ""
+
+    //get all todos 
+    async function getToDos(){
+      const response = await axios.get("http://localhost:8000/to-do-list" , {
+        headers : {
+          token : token ,
+        }
+      })
+      let data = {}
+      if(response.data){
+        document.getElementById("todolist").innerHTML = "";
+        data = response.data.allTodos;
+        data.reverse().forEach(task => {
+             const li = createTodoItem(task);
+            document.getElementById("todolist").prepend(li);
+        });
+    }
+      return data ;
+    }
+    getToDos()
+
+    //get User data
+    async function getData(){
+      if(!token){
+        window.location.href = "./login.html"
+      }
+      const response = await axios.get("http://localhost:8000/api-user-data" , {
+        headers : {
+          token : token,
+        },
+      });
+      console.log("user id : " + response.data.userDetails._id);
+      userId = response.data.userDetails._id ;
+      document.getElementById("profile").innerText ="Hi, " + response.data.userDetails.name;
+
+    }
+    getData();
+ 
+    //mark the task as completed or not
+    window.markAsCompleted = async function (id , done){
+      // let cb = document.getElementById("checkBox");
+      // let done = false
+      // if(cb.checked){
+      //   done = true;
+      // }else{
+      //    done = false
+      // }
+      console.log(done)
+      const updateTodo = await axios.put("http://localhost:8000/to-dos",{
+        done : done,
+      } ,{
+        headers :{
+          id : id,
+          token : localStorage.getItem("token"),
+        }
+      });
+      if(updateTodo.status){
+        getToDos();
+      }
+    }
+
+    //Add the task in database
+    document.getElementById("Addbtn").addEventListener("click" , async (event)=>{
+      event.preventDefault()
+      const title = document.getElementById("title").value ;
+      const priority = document.getElementById("priority").value ;
+      let done = false;
+      const response = await axios.post('http://localhost:8000/to-dos' , {
+        userId : userId,
+        title : title ,
+        priority : priority ,
+        done : done ,
+      }, {
+        headers : {
+          token : localStorage.getItem("token"),
+        },
+      })
+      console.log(response.data)
+      document.getElementById("title").value = ""
+      document.getElementById("priority").value = ""
+      getToDos();
+    })
+
+
+    //create an todos-sections
+  function createTodoItem(todo) {
+    const li = document.createElement("li");
+    li.className = "bg-white p-4 rounded shadow flex justify-between items-center";
+    const statusText = todo.completed ? "Completed" : "Pending";
+    const priority = todo.priority || "Low"; // default fallback
+    const content = `
+      <div>
+        <h3 id="to-do-title" class="text-lg font-semibold">${todo.title}</h3>
+        <p class="text-sm text-gray-500">Priority: ${priority} | Status: ${statusText}</p>
+      </div>
+      <div class="space-x-2">
+        ${
+          todo.completed
+            ? `<button class="text-gray-400 font-semibold cursor-not-allowed" disabled>Completed</button>`
+            : `<input type="checkbox" id="checkBox" class="text-green-600 font-semibold hover:underline" onchange="markAsCompleted('${todo._id}', this.checked)">`
+        }
+        <button class="text-red-600 font-semibold hover:underline" onclick="deleteTodo('${todo._id}')">Delete</button>
+      </div>
+    `;
+
+    li.innerHTML = content;
+    return li;
+  }
+  
+  //delete-section
+   window.deleteTodo = async function(id){
+      const response = await axios.delete("http://localhost:8000/delete-todos", {
+        headers :{
+          id : id,
+          token : localStorage.getItem("token")
+        }
+      });
+      getToDos();
+    }
+
+    //filter-section
+  document.querySelectorAll(".filter-btn").forEach((btn)=>{
+    btn.addEventListener("click" , async (event)=>{
+      event.preventDefault()
+      const filterText = event.target.innerText;
+      const todos = await getToDos();
+      const completedTask = todos.filter((t) => t.completed == true)
+      const PendingTask = todos.filter((t) => t.completed == false)
+      if(filterText == "Completed"){
+        document.getElementById("todolist").innerHTML = "";
+            completedTask.reverse().forEach(task => {
+             const li = createTodoItem(task);
+            document.getElementById("todolist").prepend(li);
+        });
+      }else if(filterText == "Pending"){
+        document.getElementById("todolist").innerHTML = "";
+            PendingTask.reverse().forEach(task => {
+             const li = createTodoItem(task);
+            document.getElementById("todolist").prepend(li);
+        });
+      }else{
+        getToDos();
+      }
+    })
+  })
+});
+ function getLogout(){
+      localStorage.removeItem("token")
+      window.location.href = "./login.html"
+    }
+</script>
+</html>

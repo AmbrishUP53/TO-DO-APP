@@ -1,0 +1,60 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ToDo App - Stay Organized</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800">
+  <!-- Navbar -->
+  <header class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">ToDo App</h1>
+    <nav class="space-x-4">
+      <a href="login.html" class="hover:underline">Login</a>
+      <a href="signup.html" class="bg-white text-blue-600 px-4 py-1 rounded hover:bg-blue-100 font-semibold">Sign Up</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="flex flex-col-reverse md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-20">
+    <!-- Left Text Content -->
+    <div class="md:w-1/2 text-center md:text-left">
+      <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4">Organize Your Day, One Task at a Time.</h2>
+      <p class="text-gray-600 text-lg mb-6">Simple. Powerful. Your tasks, your way. Plan smart with our intuitive ToDo list app.</p>
+      <a href="/signup.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold text-lg inline-block">
+        Get Started
+      </a>
+    </div>
+
+    <!-- Right Image -->
+    <div class="md:w-1/2 mb-10 md:mb-0">
+      <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="ToDo App Illustration" class="w-full max-w-sm mx-auto">
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="bg-gray-50 py-16">
+    <div class="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
+      <div>
+        <h3 class="text-xl font-semibold mb-2">🧠 Simple UI</h3>
+        <p class="text-gray-600">No distractions. Just your tasks and a clean interface to get things done.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold mb-2">🔒 Secure Login</h3>
+        <p class="text-gray-600">Your data stays private with secure authentication and encryption.</p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold mb-2">📱 Responsive</h3>
+        <p class="text-gray-600">Access your tasks anywhere on mobile, tablet, or desktop.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center py-4 mt-10">
+    &copy; 2025 ToDo App. Built with 💙 by Ambrish.
+  </footer>
+</body>
+</html>

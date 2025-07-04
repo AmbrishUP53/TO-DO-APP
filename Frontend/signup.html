@@ -1,0 +1,50 @@
+<!-- public/signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - ToDo App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js" ></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Create an Account</h2>
+    <form id="signupForm" class="space-y-4">
+      <input id="name" type="text" name="name" placeholder="Full Name" required class="w-full px-4 py-2 border rounded-md"/>
+      <input id="email" type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-md"/>
+      <input id="password" type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border rounded-md"/>
+      <button id="SignUp" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md disabled-true "  onclick="getSignup(event)">
+        Sign Up
+      </button>
+    </form>
+    <p class="mt-4 text-center text-sm">
+      Already have an account?
+      <a href="login.html" class="text-blue-600 hover:underline">Log In</a>
+    </p>
+  </div>
+</body>
+
+<script>
+
+    async function getSignup(event){
+      event.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+      if(name &&  email && password){
+          document.getElementById("SignUp").disabled = false;
+          const response = await axios.post("http://localhost:8000/signup" ,{
+            name : name,
+            email  :email,
+            password : password,
+          })
+        console.log(response.data)
+        if(response.data){
+          window.location.href = "./login.html";
+        }
+      }
+    }
+</script>
+</html>

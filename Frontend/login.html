@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - ToDo App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js" ></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login to Your Account</h2>
+    <form id="loginForm" class="space-y-4">
+      <input id="email" type="email" name="email" placeholder="Email" required class="w-full px-4 py-2 border rounded-md"/>
+      <input id="password" type="password" name="password" placeholder="Password" required class="w-full px-4 py-2 border rounded-md"/>
+      <button id="loginBtn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md" >
+        Log In
+      </button>
+    </form>
+    <p class="mt-4 text-center text-sm">
+      Don't have an account?
+      <a href="/signup.html" class="text-blue-600 hover:underline">Sign Up</a>
+    </p>
+  </div>
+</body>
+<script>
+  document.getElementById("loginBtn").addEventListener("click" , async (event)=>{
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+    try{
+      if(email && password){
+        const response = await axios.post("http://localhost:8000/signin" , {
+          email  :email,
+          password : password,
+        })
+        console.log(response.data)
+     
+          localStorage.setItem("token" , response.data.token)
+          window.location.href  = "./dashboard.html"
+         
+      }}catch(err){
+         console.log("error")
+      }
+  })
+
+  async function getSignIn(){
+    
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+    try{
+      if(email && password){
+        const response = await axios.post("http://localhost:8000/signin" , {
+          email  :email,
+          password : password,
+        })
+        console.log(response.data)
+     
+          localStorage.setItem("token" , response.data.token)
+          window.location.href  = "./dashboard.html"
+         
+      }}catch(err){
+         console.log("error")
+      }
+  }
+
+
+   
+</script>
+</html>
