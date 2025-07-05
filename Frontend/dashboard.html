@@ -112,7 +112,7 @@
       const title = document.getElementById("title").value ;
       const priority = document.getElementById("priority").value ;
       let done = false;
-      const response = await axios.post(BACK_URL+'/to-dos' , {
+      const response = await axios.post(BACKEND_URL+'/to-dos' , {
         userId : userId,
         title : title ,
         priority : priority ,
@@ -156,7 +156,7 @@
   
   //delete-section
    window.deleteTodo = async function(id){
-      const response = await axios.delete("http://localhost:8000/delete-todos", {
+      const response = await axios.delete(BACKEND_URL+"/delete-todos", {
         headers :{
           id : id,
           token : localStorage.getItem("token")
