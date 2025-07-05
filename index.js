@@ -50,9 +50,10 @@ app.post("/signup" , async (req ,res)=>{
         const data = signupSchema.safeParse(req.body );
         if(!data.success){
             res.json({
+                isSignUp : false,
                 message : data.error.errors[0].message,
             })
-        }
+        }else {
         const {name , email , password} = req.body ;
         await  user.create({
             name : name,
@@ -60,8 +61,9 @@ app.post("/signup" , async (req ,res)=>{
             password : password
         })
         res.json({
-            message : "You are successfully signed up",
+            isSignUp : true,
         })
+    }
     }catch(err){
         console.log("err during sign up" , err)
     }
@@ -71,10 +73,10 @@ app.post("/signin" ,async  (req , res)=>{
     try{
         const response = signinSchema.safeParse(req.body);
         if(!response.success){
-            return  res.json({
+            res.json({
                 message :  response.error.errors[0].message,
             })
-        }
+        }else {
         const {email , password} = req.body;
         const isUser = await user.findOne({email : email , password : password});
         if(isUser){
@@ -87,9 +89,10 @@ app.post("/signin" ,async  (req , res)=>{
              })
         }else{
             res.json({
-                isUser : false ,
+                isUser : false , 
             })
         }
+    }
     }catch(err){
         console.log("error " , err);
     }
