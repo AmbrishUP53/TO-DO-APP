@@ -11,7 +11,7 @@
   <nav class="bg-blue-600 text-white p-4 flex justify-between">
     <h1 class="text-xl font-bold">ToDo Dashboard</h1>
     <div>
-     <a href="/profile" id="profile"
+     <a href="#" id="profile"
       class="px-4 py-1 rounded-full bg-gradient-to-r from-purple-200 to-indigo-200 text-gray-800 font-semibold hover:from-purple-300 hover:to-indigo-300 transition-all    duration-200 shadow-sm"></a>
 
       <button id="logoutBtn" class="bg-red-500 px-3 py-1 rounded hover:bg-red-600" onclick="getLogout()">Logout</button>
@@ -25,7 +25,7 @@
     <form id="addTaskForm" class="flex flex-col md:flex-row gap-4 mb-6">
       <input id="title" type="text" name="title" placeholder="Task title" required class="flex-1 px-4 py-2 border rounded-md"/>
       <select id="priority" name="priority" class="px-4 py-2 border rounded-md">
-        <option value="">Priority</option>
+        <!-- <option value="">Priority</option> -->
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         <option value="High">High</option>
@@ -36,9 +36,9 @@
     </form>
 
     <div class="mb-4 space-x-2">
-      <button onclick="getToDos()" class="filter-btn px-4 py-1 border rounded bg-gray-200">All</button>
-      <button  class="filter-btn px-4 py-1 border rounded bg-gray-200">Completed</button>
-      <button  class="filter-btn px-4 py-1 border rounded bg-gray-200">Pending</button>
+      <button onclick="getToDos()" class="filter-btn px-4 py-1 border hover:border-blue-600 rounded bg-gray-200">All</button>
+      <button  class="filter-btn px-4 py-1 border hover:border-blue-600 rounded bg-gray-200">Completed</button>
+      <button  class="filter-btn px-4 py-1 border hover:border-blue-600 rounded bg-gray-200">Pending</button>
     </div>
 
     <!-- Task 1 -->
