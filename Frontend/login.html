@@ -26,7 +26,6 @@
 </body>
 <script>
     const BACKEND_URL = "https://to-do-app-mo9s.onrender.com";
-    // const BACK_URL = BACKEND_URL  ;
     // const BACK_URL = BACKEND_URL || "http://localhost:8000" ;
   document.getElementById("loginBtn").addEventListener("click" , async (event)=>{
       event.preventDefault();
@@ -34,44 +33,21 @@
       const password = document.getElementById("password").value;
     try{
       if(email && password){
-        const response = await axios.post( BACKEND_URL+"/signin" , {
+        const response = await axios.post(BACKEND_URL+"/signin" , {
           email  :email,
           password : password,
         })
-        console.log(response.data.isUser)
         if(response.data.isUser){
           localStorage.setItem("token" , response.data.token)
           window.location.href  = "./dashboard.html"
         }
         else{
-          alert("Username or password is incorrect")
+          alert(response.data.message)
         }
       }}catch(err){
          console.log("error : " , err)
       }
   })
-
-  // async function getSignIn(){
-    
-  //     const email = document.getElementById("email").value;
-  //     const password = document.getElementById("password").value;
-  //   try{
-  //     if(email && password){
-  //       const response = await axios.post("http://localhost:8000/signin" , {
-  //         email  :email,
-  //         password : password,
-  //       })
-  //       console.log("the response is : ",response.data)
-     
-  //         localStorage.setItem("token" , response.data.token)
-  //         // window.location.href  = "./dashboard.html"
-         
-  //     }}catch(err){
-  //        console.log("error")
-  //     }
-  // }
-
-
    
 </script>
 </html>
