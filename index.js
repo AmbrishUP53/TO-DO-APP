@@ -82,11 +82,12 @@ app.post("/signin" ,async  (req , res)=>{
             isUser.token = token;
             await isUser.save(); 
              res.json({
-                token,
+                isUser : true,
+                token : token,
              })
         }else{
             res.json({
-                message : "You are not signed up",
+                isUser : false ,
             })
         }
     }catch(err){
