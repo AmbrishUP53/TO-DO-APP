@@ -48,22 +48,24 @@ app.get("/" , (req , res)=>{
 app.post("/signup" , async (req ,res)=>{
     try{
         const data = signupSchema.safeParse(req.body );
+        console.log(data)
         if(!data.success){
             res.json({
                 isSignUp : false,
                 message : data.error.errors[0].message,
             })
-        }else {
-        const {name , email , password} = req.body ;
-        await  user.create({
-            name : name,
-            email : email,
-            password : password
-        })
-        res.json({
-            isSignUp : true,
-        })
-    }
+        }
+        else{
+            const {name , email , password} = req.body ;
+            await  user.create({
+                name : name,
+                email : email,
+                password : password
+            })
+            res.json({
+                isSignUp : true,
+            })
+        }
     }catch(err){
         console.log("err during sign up" , err)
     }
